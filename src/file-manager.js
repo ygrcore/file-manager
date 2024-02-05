@@ -126,7 +126,19 @@ const FileManager = {
     writeStream.on('error', (err) => {
       console.error(`Error writing to destination file: ${err.message}`);
     });
-  }
+  },
+
+  deleteFile: function (filename) {
+    const filePathToRemove = join(this.currentDirectory, filename);
+
+    unlink(filePathToRemove, (err) => {
+      if (err) {
+        console.error(`Error deleting file: ${err.message}`);
+      } else {
+        console.log('File deleted successfully.');
+      }
+    });
+  },
 
 };
 

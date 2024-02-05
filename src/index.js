@@ -27,7 +27,7 @@ rl.on("line", (line) => {
       if (newDir) {
         FileManager.changeDirectory(newDir);
       } else {
-        console.log('New directory is not provided.')
+        console.log("New directory is not provided.");
       }
       break;
     case "ls":
@@ -38,7 +38,7 @@ rl.on("line", (line) => {
       if (fileToRead) {
         FileManager.cat(fileToRead);
       } else {
-        console.log('Filename not specified');
+        console.log("Filename not specified");
       }
       break;
     case "add":
@@ -46,7 +46,7 @@ rl.on("line", (line) => {
       if (newFile) {
         FileManager.add(newFile);
       } else {
-        console.log('Filename not specified');
+        console.log("Filename not specified");
       }
       break;
     case "rn":
@@ -55,7 +55,7 @@ rl.on("line", (line) => {
       if (oldFilename & newFilename) {
         FileManager.rename(oldFilename, newFilename);
       } else {
-        console.log('Missed some arguments')
+        console.log("Missed some arguments");
       }
       break;
     case "cp":
@@ -64,7 +64,7 @@ rl.on("line", (line) => {
       if (fileToCopy && destinationToCopyFile) {
         FileManager.copyFileToDirectory(fileToCopy, destinationToCopyFile);
       } else {
-        console.log('Missed some arguments or they are incorrect')
+        console.log("Missed some arguments or they are incorrect");
       }
       break;
     case "mv":
@@ -73,7 +73,15 @@ rl.on("line", (line) => {
       if (fileToMove && destinationToMoveFile) {
         FileManager.moveFileToDirectory(fileToMove, destinationToMoveFile);
       } else {
-        console.log('Missed some arguments or they are incorrect')
+        console.log("Missed some arguments or they are incorrect");
+      }
+      break;
+    case "rm":
+      const fileNameToRemove = args[0];
+      if (fileNameToRemove) {
+        FileManager.deleteFile(fileNameToRemove);
+      } else {
+        console.log("Missed the file name to remove");
       }
       break;
     case ".exit":
