@@ -1,4 +1,4 @@
-import {createReadStream, createWriteStream, access, constants, readdir, writeFile, rename} from 'fs';
+import {createReadStream, createWriteStream, access, constants, readdir, writeFile, rename, unlink} from 'fs';
 import {join, resolve} from 'path';
 
 const FileManager = {
@@ -103,6 +103,30 @@ const FileManager = {
       console.error(`Error copying file: ${err.message}`);
     });
   },
+
+  moveFileToDirectory: function (filename, destinationDirectory) {
+    const sourceFilePath = join(this.currentDirectory, filename);
+    const destinationFilePath = join(destinationDirectory, filename);
+
+    const readStream = createReadStream(sourceFilePath);
+    const writeStream = createWriteStream(destinationFilePath);
+
+    readStream.pipe(writeStream);
+
+    writeStream.on('finish', () => {
+      unlink(sourceFilePath, (err) => {
+        if (err) {
+          console.error(`Error deleting file: ${err.message}`);
+        } else {
+          console.log('File moved successfully.');
+        }
+      });
+    });
+
+    writeStream.on('error', (err) => {
+      console.error(`Error writing to destination file: ${err.message}`);
+    });
+  }
 
 };
 

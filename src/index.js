@@ -55,16 +55,25 @@ rl.on("line", (line) => {
       if (oldFilename & newFilename) {
         FileManager.rename(oldFilename, newFilename);
       } else {
-        console.log('Miss some arguments')
+        console.log('Missed some arguments')
       }
       break;
     case "cp":
-      const fileName = args[0];
-      const destinationDirectory = args[1];
-      if (fileName && destinationDirectory) {
-        FileManager.copyFileToDirectory(fileName, destinationDirectory);
+      const fileToCopy = args[0];
+      const destinationToCopyFile = args[1];
+      if (fileToCopy && destinationToCopyFile) {
+        FileManager.copyFileToDirectory(fileToCopy, destinationToCopyFile);
       } else {
-        console.log('Miss some arguments')
+        console.log('Missed some arguments or they are incorrect')
+      }
+      break;
+    case "mv":
+      const fileToMove = args[0];
+      const destinationToMoveFile = args[1];
+      if (fileToMove && destinationToMoveFile) {
+        FileManager.moveFileToDirectory(fileToMove, destinationToMoveFile);
+      } else {
+        console.log('Missed some arguments or they are incorrect')
       }
       break;
     case ".exit":
