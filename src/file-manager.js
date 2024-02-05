@@ -1,6 +1,7 @@
 import {createReadStream, createWriteStream, access, constants, readdir, writeFile, rename, unlink} from 'fs';
 import os from 'os';
 import {join, resolve} from 'path';
+import { createHash } from 'crypto';
 
 const FileManager = {
   currentDirectory: process.cwd(),
@@ -168,6 +169,24 @@ const FileManager = {
   getCpuArchitecture: function () {
     const cpuArchitecture = os.arch();
     console.log('CPU Architecture:', cpuArchitecture);
+  },
+
+  calculateHash: function(filePath) {
+    const hash = createHash('sha256');
+    const stream = createReadStream(filePath);
+
+    stream.on('data', (data) => {
+      hash.update(data);
+    });
+
+    stream.on('end', () => {
+      const fileHash = hash.digest('hex');
+      console.log(`${filePath} hash:`, fileHash);
+    });
+
+    stream.on('error', (error) => {
+      console.error(`Error reading file: ${error.message}`);
+    });
   },
 
 

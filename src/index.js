@@ -102,6 +102,14 @@ rl.on("line", (line) => {
         );
       }
       break;
+    case "hash":
+      const fileToHash = args[0];
+      if (fileToHash) {
+        FileManager.calculateHash(fileToHash);
+      } else {
+        console.log("Missed the file name to calculate hash");
+      }
+      break;
     case ".exit":
       console.log(
         `Thank you for using File Manager, ${
