@@ -1,4 +1,5 @@
 import {createReadStream, createWriteStream, access, constants, readdir, writeFile, rename, unlink} from 'fs';
+import os from 'os';
 import {join, resolve} from 'path';
 
 const FileManager = {
@@ -137,6 +138,21 @@ const FileManager = {
       } else {
         console.log('File deleted successfully.');
       }
+    });
+  },
+
+  getEOL: function () {
+    console.log(`The End-Of-Line (EOL) is: ${JSON.stringify(os.EOL)}`);
+  },
+
+  getCPUS: function () {
+    const cpusInfo = os.cpus();
+
+    console.log('Overall amount of CPUS:', cpusInfo.length);
+    cpusInfo.forEach((cpu, index) => {
+      console.log(`CPU ${index + 1}:`);
+      console.log(`  Model: ${cpu.model}`);
+      console.log(`  Clock rate: ${cpu.speed / 1000} GHz`);
     });
   },
 

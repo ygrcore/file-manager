@@ -84,6 +84,18 @@ rl.on("line", (line) => {
         console.log("Missed the file name to remove");
       }
       break;
+    case "os":
+      const osCommand = args[0];
+      if (osCommand === "--EOL") {
+        FileManager.getEOL();
+      } else if (osCommand === "--cpus") {
+        FileManager.getCPUS();
+      } else {
+        console.log(
+          'Invalid os command. Use "--EOL, --cpus" flag'
+        );
+      }
+      break;
     case ".exit":
       console.log(
         `Thank you for using File Manager, ${
