@@ -161,6 +161,11 @@ const FileManager = {
     console.log('Home Directory:', homeDirectory);
   },
 
+  getUsername: function () {
+    const systemUsername = os.userInfo().username;
+    console.log('System Username:', systemUsername);
+  },
+
 
 };
 

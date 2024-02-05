@@ -92,9 +92,11 @@ rl.on("line", (line) => {
         FileManager.getCPUS();
       } else if (osCommand === "--homedir") {
         FileManager.getHomedir();
+      } else if (osCommand === "--username") {
+        FileManager.getUsername();
       } else {
         console.log(
-          'Invalid os command. Use "--EOL, --cpus, --homedir" flags'
+          'Invalid os command. Use "--EOL, --cpus, --homedir, --username" flags'
         );
       }
       break;
