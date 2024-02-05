@@ -58,6 +58,15 @@ rl.on("line", (line) => {
         console.log('Miss some arguments')
       }
       break;
+    case "cp":
+      const fileName = args[0];
+      const destinationDirectory = args[1];
+      if (fileName && destinationDirectory) {
+        FileManager.copyFileToDirectory(fileName, destinationDirectory);
+      } else {
+        console.log('Miss some arguments')
+      }
+      break;
     case ".exit":
       console.log(
         `Thank you for using File Manager, ${

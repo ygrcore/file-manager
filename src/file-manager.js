@@ -1,4 +1,4 @@
-import {createReadStream, access, constants, readdir, writeFile, rename} from 'fs';
+import {createReadStream, createWriteStream, access, constants, readdir, writeFile, rename} from 'fs';
 import {join, resolve} from 'path';
 
 const FileManager = {
@@ -83,6 +83,24 @@ const FileManager = {
           }
         });
       }
+    });
+  },
+
+  copyFileToDirectory: function (filename, destinationDirectory) {
+    const sourcePath = resolve(this.currentDirectory, filename);
+    const destinationPath = resolve(destinationDirectory, filename);
+
+    const readStream = createReadStream(sourcePath);
+    const writeStream = createWriteStream(destinationPath);
+
+    readStream.pipe(writeStream);
+
+    writeStream.on('finish', () => {
+      console.log(`File ${filename} copied to ${destinationDirectory}`);
+    });
+
+    writeStream.on('error', (err) => {
+      console.error(`Error copying file: ${err.message}`);
     });
   },
 
