@@ -1,4 +1,4 @@
-import {createReadStream, access, constants, readdir, writeFile} from 'fs';
+import {createReadStream, access, constants, readdir, writeFile, rename} from 'fs';
 import {join, resolve} from 'path';
 
 const FileManager = {
@@ -63,6 +63,25 @@ const FileManager = {
         console.error(`Error creating file: ${err.message}`);
       } else {
         console.log(`File ${filename} created successfully.`);
+      }
+    });
+  },
+
+  rename: function (oldFilename, newFilename) {
+    const oldPath = join(this.currentDirectory, oldFilename);
+    const newPath = join(this.currentDirectory, newFilename);
+
+    access(oldPath, constants.F_OK, (err) => {
+      if (err) {
+        console.error(`File not found: ${oldPath}`);
+      } else {
+        rename(oldPath, newPath, (renameErr) => {
+          if (renameErr) {
+            console.error(`Error renaming file: ${renameErr.message}`);
+          } else {
+            console.log(`File renamed successfully from ${oldFilename} to ${newFilename}`);
+          }
+        });
       }
     });
   },

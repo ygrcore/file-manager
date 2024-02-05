@@ -23,16 +23,40 @@ rl.on("line", (line) => {
       FileManager.changeDirectory("..");
       break;
     case "cd":
-      FileManager.changeDirectory(args[0]);
+      const newDir = args[0];
+      if (newDir) {
+        FileManager.changeDirectory(newDir);
+      } else {
+        console.log('New directory is not provided.')
+      }
       break;
     case "ls":
       FileManager.listFiles();
       break;
     case "cat":
-      FileManager.cat(args[0]);
+      const fileToRead = args[0];
+      if (fileToRead) {
+        FileManager.cat(fileToRead);
+      } else {
+        console.log('Filename not specified');
+      }
       break;
     case "add":
-      FileManager.add(args[0]);
+      const newFile = args[0];
+      if (newFile) {
+        FileManager.add(newFile);
+      } else {
+        console.log('Filename not specified');
+      }
+      break;
+    case "rn":
+      const oldFilename = args[0];
+      const newFilename = args[1];
+      if (oldFilename & newFilename) {
+        FileManager.rename(oldFilename, newFilename);
+      } else {
+        console.log('Miss some arguments')
+      }
       break;
     case ".exit":
       console.log(
@@ -44,7 +68,7 @@ rl.on("line", (line) => {
       break;
 
     default:
-      console.log('Invalid command.');
+      console.log("Invalid command.");
   }
 
   rl.prompt();
