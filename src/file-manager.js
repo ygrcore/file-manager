@@ -1,4 +1,4 @@
-import {createReadStream, access, constants, readdir} from 'fs';
+import {createReadStream, access, constants, readdir, writeFile} from 'fs';
 import {join, resolve} from 'path';
 
 const FileManager = {
@@ -52,6 +52,18 @@ const FileManager = {
 
     readStream.on('error', (err) => {
       console.error(`Error reading file: ${err.message}`);
+    });
+  },
+
+  add: function (filename) {
+    const filePath = join(this.currentDirectory, filename);
+
+    writeFile(filePath, '', (err) => {
+      if (err) {
+        console.error(`Error creating file: ${err.message}`);
+      } else {
+        console.log(`File ${filename} created successfully.`);
+      }
     });
   },
 

@@ -31,6 +31,9 @@ rl.on("line", (line) => {
     case "cat":
       FileManager.cat(args[0]);
       break;
+    case "add":
+      FileManager.add(args[0]);
+      break;
     case ".exit":
       console.log(
         `Thank you for using File Manager, ${
