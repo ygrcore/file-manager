@@ -110,6 +110,24 @@ rl.on("line", (line) => {
         console.log("Missed the file name to calculate hash");
       }
       break;
+    case "compress":
+      const filePathToCompress = args[0];
+      const fileCompressedDestinationPath = args[1];
+      if (filePathToCompress && fileCompressedDestinationPath) {
+        FileManager.compressFile(filePathToCompress, fileCompressedDestinationPath);
+      } else {
+        console.log("Missed some arguments");
+      }
+      break;
+    case "decompress":
+      const filePathToDecompress = args[0];
+      const fileDecompressedDestinationPath = args[1];
+      if (filePathToDecompress && fileDecompressedDestinationPath) {
+        FileManager.compressFile(filePathToDecompress, fileDecompressedDestinationPath);
+      } else {
+        console.log("Missed some arguments");
+      }
+      break;
     case ".exit":
       console.log(
         `Thank you for using File Manager, ${

@@ -2,6 +2,7 @@ import {createReadStream, createWriteStream, access, constants, readdir, writeFi
 import os from 'os';
 import {join, resolve} from 'path';
 import { createHash } from 'crypto';
+import { createBrotliCompress, createBrotliDecompress } from 'zlib';
 
 const FileManager = {
   currentDirectory: process.cwd(),
@@ -189,6 +190,45 @@ const FileManager = {
     });
   },
 
+  compressFile: function(sourcePath, destinationPath) {
+    const sourceStream = createReadStream(sourcePath);
+    const destinationStream = createWriteStream(destinationPath);
+    const compressStream = createBrotliCompress();
+
+    sourceStream.pipe(compressStream).pipe(destinationStream);
+
+    destinationStream.on('finish', () => {
+      console.log('File compressed successfully.');
+    });
+
+    destinationStream.on('error', (error) => {
+      console.error(`Error writing compressed file: ${error.message}`);
+    });
+
+    sourceStream.on('error', (error) => {
+      console.error(`Error reading source file: ${error.message}`);
+    });
+  },
+
+  decompressFile: function(sourcePath, destinationPath) {
+    const sourceStream = createReadStream(sourcePath);
+    const destinationStream = createWriteStream(destinationPath);
+    const decompressStream = createBrotliDecompress();
+
+    sourceStream.pipe(decompressStream).pipe(destinationStream);
+
+    destinationStream.on('finish', () => {
+      console.log('File decompressed successfully.');
+    });
+
+    destinationStream.on('error', (error) => {
+      console.error(`Error writing decompressed file: ${error.message}`);
+    });
+
+    sourceStream.on('error', (error) => {
+      console.error(`Error reading source file: ${error.message}`);
+    });
+  },
 
 };
 
