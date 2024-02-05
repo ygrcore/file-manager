@@ -156,6 +156,12 @@ const FileManager = {
     });
   },
 
+  getHomedir: function () {
+    const homeDirectory = os.homedir();
+    console.log('Home Directory:', homeDirectory);
+  },
+
+
 };
 
 export default FileManager;
