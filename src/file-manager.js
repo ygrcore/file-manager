@@ -8,14 +8,14 @@ const FileManager = {
   currentDirectory: process.cwd(),
 
   printCurrentDirectory: function () {
-    console.log(`You are currently in ${this.currentDirectory}`);
+    console.log(`\nYou are currently in ${this.currentDirectory}`);
   },
 
   changeDirectory: function (newDir) {
     const targetDirectory = resolve(this.currentDirectory, newDir);
     access(targetDirectory, constants.R_OK | constants.X_OK, (err) => {
       if (err) {
-        console.error('Invalid directory or insufficient permissions.');
+        console.error('Operation failed: Invalid directory');
       } else {
         this.currentDirectory = targetDirectory;
         this.printCurrentDirectory();
@@ -27,7 +27,7 @@ const FileManager = {
     const fileArray = [];
     readdir(this.currentDirectory, { withFileTypes: true }, (err, files) => {
       if (err) {
-        console.error(`Error reading directory: ${err.message}`);
+        console.error(`Operation failed: ${err.message}`);
       } else {
         files.sort((a, b) => b.isDirectory() - a.isDirectory() || a.name.localeCompare(b.name));
         files.forEach(file => {
@@ -37,6 +37,7 @@ const FileManager = {
         });
         console.log('\n');
         console.table(fileArray, ['Name', 'Type']);
+        this.printCurrentDirectory();
       }
     });
   },
@@ -50,11 +51,11 @@ const FileManager = {
     });
 
     readStream.on('end', () => {
-      console.log('\nFile read complete.');
+      this.printCurrentDirectory();
     });
 
     readStream.on('error', (err) => {
-      console.error(`Error reading file: ${err.message}`);
+      console.error(`Operation failed: ${err.message}`);
     });
   },
 
@@ -63,9 +64,10 @@ const FileManager = {
 
     writeFile(filePath, '', (err) => {
       if (err) {
-        console.error(`Error creating file: ${err.message}`);
+        console.error(`Operation failed: ${err.message}`);
       } else {
         console.log(`File ${filename} created successfully.`);
+        this.printCurrentDirectory();
       }
     });
   },
@@ -76,13 +78,14 @@ const FileManager = {
 
     access(oldPath, constants.F_OK, (err) => {
       if (err) {
-        console.error(`File not found: ${oldPath}`);
+        console.error(`Operation failed: File not found ${oldPath}`);
       } else {
         rename(oldPath, newPath, (renameErr) => {
           if (renameErr) {
-            console.error(`Error renaming file: ${renameErr.message}`);
+            console.error(`Operation failed: ${renameErr.message}`);
           } else {
             console.log(`File renamed successfully from ${oldFilename} to ${newFilename}`);
+            this.printCurrentDirectory();
           }
         });
       }
@@ -100,10 +103,11 @@ const FileManager = {
 
     writeStream.on('finish', () => {
       console.log(`File ${filename} copied to ${destinationDirectory}`);
+      this.printCurrentDirectory();
     });
 
     writeStream.on('error', (err) => {
-      console.error(`Error copying file: ${err.message}`);
+      console.error(`Operation failed: ${err.message}`);
     });
   },
 
@@ -119,15 +123,16 @@ const FileManager = {
     writeStream.on('finish', () => {
       unlink(sourceFilePath, (err) => {
         if (err) {
-          console.error(`Error deleting file: ${err.message}`);
+          console.error(`Operation failed: ${err.message}`);
         } else {
           console.log('File moved successfully.');
+          this.printCurrentDirectory();
         }
       });
     });
 
     writeStream.on('error', (err) => {
-      console.error(`Error writing to destination file: ${err.message}`);
+      console.error(`Operation failed: ${err.message}`);
     });
   },
 
@@ -136,15 +141,17 @@ const FileManager = {
 
     unlink(filePathToRemove, (err) => {
       if (err) {
-        console.error(`Error deleting file: ${err.message}`);
+        console.error(`Operation failed: ${err.message}`);
       } else {
         console.log('File deleted successfully.');
+        this.printCurrentDirectory();
       }
     });
   },
 
   getEOL: function () {
     console.log(`The End-Of-Line (EOL) is: ${JSON.stringify(os.EOL)}`);
+    this.printCurrentDirectory();
   },
 
   getCPUS: function () {
@@ -156,20 +163,24 @@ const FileManager = {
       console.log(`  Model: ${cpu.model}`);
       console.log(`  Clock rate: ${cpu.speed / 1000} GHz`);
     });
+    this.printCurrentDirectory();
   },
 
   getHomedir: function () {
     const homeDirectory = os.homedir();
     console.log('Home Directory:', homeDirectory);
+    this.printCurrentDirectory();
   },
 
   getUsername: function () {
     const systemUsername = os.userInfo().username;
     console.log('System Username:', systemUsername);
+    this.printCurrentDirectory();
   },
   getCpuArchitecture: function () {
     const cpuArchitecture = os.arch();
     console.log('CPU Architecture:', cpuArchitecture);
+    this.printCurrentDirectory();
   },
 
   calculateHash: function(filePath) {
@@ -183,10 +194,11 @@ const FileManager = {
     stream.on('end', () => {
       const fileHash = hash.digest('hex');
       console.log(`${filePath} hash:`, fileHash);
+      this.printCurrentDirectory();
     });
 
     stream.on('error', (error) => {
-      console.error(`Error reading file: ${error.message}`);
+      console.error(`Operation failed: ${error.message}`);
     });
   },
 
@@ -199,14 +211,15 @@ const FileManager = {
 
     destinationStream.on('finish', () => {
       console.log('File compressed successfully.');
+      this.printCurrentDirectory();
     });
 
     destinationStream.on('error', (error) => {
-      console.error(`Error writing compressed file: ${error.message}`);
+      console.error(`Operation failed: ${error.message}`);
     });
 
     sourceStream.on('error', (error) => {
-      console.error(`Error reading source file: ${error.message}`);
+      console.error(`Operation failed: ${error.message}`);
     });
   },
 
@@ -219,14 +232,15 @@ const FileManager = {
 
     destinationStream.on('finish', () => {
       console.log('File decompressed successfully.');
+      this.printCurrentDirectory();
     });
 
     destinationStream.on('error', (error) => {
-      console.error(`Error writing decompressed file: ${error.message}`);
+      console.error(`Operation failed: ${error.message}`);
     });
 
     sourceStream.on('error', (error) => {
-      console.error(`Error reading source file: ${error.message}`);
+      console.error(`Operation failed: ${error.message}`);
     });
   },
 

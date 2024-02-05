@@ -9,6 +9,7 @@ const rl = readline.createInterface({
 });
 
 console.log(`Welcome to the File Manager, ${username || "Programmer"}!`);
+FileManager.printCurrentDirectory();
 
 rl.prompt();
 
@@ -27,7 +28,7 @@ rl.on("line", (line) => {
       if (newDir) {
         FileManager.changeDirectory(newDir);
       } else {
-        console.log("New directory is not provided.");
+        console.log("Invalid input: New directory is not provided.");
       }
       break;
     case "ls":
@@ -38,7 +39,7 @@ rl.on("line", (line) => {
       if (fileToRead) {
         FileManager.cat(fileToRead);
       } else {
-        console.log("Filename not specified");
+        console.log("Invalid input: Filename not specified");
       }
       break;
     case "add":
@@ -46,7 +47,7 @@ rl.on("line", (line) => {
       if (newFile) {
         FileManager.add(newFile);
       } else {
-        console.log("Filename not specified");
+        console.log("Invalid input: Filename not specified");
       }
       break;
     case "rn":
@@ -55,7 +56,7 @@ rl.on("line", (line) => {
       if (oldFilename & newFilename) {
         FileManager.rename(oldFilename, newFilename);
       } else {
-        console.log("Missed some arguments");
+        console.log("Invalid input: Missed some arguments");
       }
       break;
     case "cp":
@@ -64,7 +65,7 @@ rl.on("line", (line) => {
       if (fileToCopy && destinationToCopyFile) {
         FileManager.copyFileToDirectory(fileToCopy, destinationToCopyFile);
       } else {
-        console.log("Missed some arguments or they are incorrect");
+        console.log("Invalid input: Missed some arguments or they are incorrect");
       }
       break;
     case "mv":
@@ -73,7 +74,7 @@ rl.on("line", (line) => {
       if (fileToMove && destinationToMoveFile) {
         FileManager.moveFileToDirectory(fileToMove, destinationToMoveFile);
       } else {
-        console.log("Missed some arguments or they are incorrect");
+        console.log("Invalid input: Missed some arguments or they are incorrect");
       }
       break;
     case "rm":
@@ -81,7 +82,7 @@ rl.on("line", (line) => {
       if (fileNameToRemove) {
         FileManager.deleteFile(fileNameToRemove);
       } else {
-        console.log("Missed the file name to remove");
+        console.log("Invalid input: Missed the file name to remove");
       }
       break;
     case "os":
@@ -98,7 +99,7 @@ rl.on("line", (line) => {
         FileManager.getCpuArchitecture();
       } else {
         console.log(
-          'Invalid os command. Use "os" with some of available flags: "--EOL, --cpus, --homedir, --username, --architecture"'
+          'Invalid input. Use "os" with some of available flags: "--EOL, --cpus, --homedir, --username, --architecture"'
         );
       }
       break;
@@ -107,7 +108,7 @@ rl.on("line", (line) => {
       if (fileToHash) {
         FileManager.calculateHash(fileToHash);
       } else {
-        console.log("Missed the file name to calculate hash");
+        console.log("Invalid input: Missed the file name to calculate hash");
       }
       break;
     case "compress":
@@ -116,7 +117,7 @@ rl.on("line", (line) => {
       if (filePathToCompress && fileCompressedDestinationPath) {
         FileManager.compressFile(filePathToCompress, fileCompressedDestinationPath);
       } else {
-        console.log("Missed some arguments");
+        console.log("Invalid input: Missed some arguments");
       }
       break;
     case "decompress":
@@ -125,7 +126,7 @@ rl.on("line", (line) => {
       if (filePathToDecompress && fileDecompressedDestinationPath) {
         FileManager.compressFile(filePathToDecompress, fileDecompressedDestinationPath);
       } else {
-        console.log("Missed some arguments");
+        console.log("Invalid input: Missed some arguments");
       }
       break;
     case ".exit":
