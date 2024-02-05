@@ -94,9 +94,11 @@ rl.on("line", (line) => {
         FileManager.getHomedir();
       } else if (osCommand === "--username") {
         FileManager.getUsername();
+      } else if (osCommand === "--architecture") {
+        FileManager.getCpuArchitecture();
       } else {
         console.log(
-          'Invalid os command. Use "--EOL, --cpus, --homedir, --username" flags'
+          'Invalid os command. Use "os" with some of available flags: "--EOL, --cpus, --homedir, --username, --architecture"'
         );
       }
       break;

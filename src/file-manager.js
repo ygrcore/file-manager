@@ -165,6 +165,10 @@ const FileManager = {
     const systemUsername = os.userInfo().username;
     console.log('System Username:', systemUsername);
   },
+  getCpuArchitecture: function () {
+    const cpuArchitecture = os.arch();
+    console.log('CPU Architecture:', cpuArchitecture);
+  },
 
 
 };
